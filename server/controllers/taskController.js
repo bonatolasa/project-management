@@ -32,6 +32,7 @@ export const createTask =async(req,res)=>{
                 priority,
                 assigneeId,
                 status,
+                type,
                 due_date:new Date(due_date)
             }
         })
@@ -97,9 +98,9 @@ export const updateTask =async(req,res)=>{
 export const deleteTask =async(req,res)=>{
     try {
         const {userId} = await req.auth()
-        const {taskIds} = req.body
+        const {tasksIds} = req.body
         const tasks = await prisma.task.findMany({
-            where:{id: {in:taskIds}}
+            where:{id: {in:tasksIds}}
         })
 
         if(tasks.length === 0){
@@ -118,7 +119,7 @@ export const deleteTask =async(req,res)=>{
         }
 
         await prisma.task.deleteMany({
-            where:{id:{in:taskIds}}
+            where:{id:{in:tasksIds}}
         })
 
         res.json({message:"Task deleted successfully"})
