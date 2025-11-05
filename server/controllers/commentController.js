@@ -13,7 +13,7 @@ export const addComment = async (req, res)=>{
         })
 
         const project= await prisma.project.findUnique({
-            whare: {id: task.projectId},
+            where: {id: task.projectId},
             include:{members:{include: {user:true}}}
         })
 
@@ -45,7 +45,7 @@ export const getTaskComments = async (req, res)=>{
         const {taskId} = req.params
 
         const comments = await prisma.comment.findMany({
-            whare: {taskId},include:{user:true}
+            where: {taskId},include:{user:true}
         })
 
         res.json({comments})
